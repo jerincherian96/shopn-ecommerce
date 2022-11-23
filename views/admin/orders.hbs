@@ -1,0 +1,136 @@
+<section class="admin-section bg-white pt-5" >
+    <div class="container ">
+      <div class="table-responsive">
+        <table class="table shadow-lg mt-2 fw-bold" id="orderslist">
+  <thead>
+    <tr>
+      <th></th>
+       <th scope="col" class="">Date</th>
+      <th scope="col" class="">Amount</th>
+      <th scope="col" class="">Payment</th>
+      <th scope="col" class="">Status</th>
+      <th>Options</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each order}}
+    <tr>
+      <td id="slNo"></td>
+      <td>{{this.date}}</td>
+        <td>{{this.totalAmount}}</td>
+        <td>{{this.paymentMethod}}</td>
+        {{!-- <td>{{this.status}}</td> --}}
+        <td>
+        <select class="form-select selectTagValue" name="status" id="{{this._id}}" style="display: none;">
+          <option value={{this.status}}  selected>{{this.status}}</option>
+          {{!-- <option value="">Pending</option> --}}
+          <option value="" class="cancelled" >Cancelled</option>
+          <option value="" class="placed" style="display: none;">Placed</option> 
+          <option value="" class="shipped" >Shipped</option>
+          <option value="" class="delivered" >Delivered</option>
+        </select>
+        <span class="spanStatus" style="display:none;">{{this.status}}</span>
+
+      </td>
+        <td><button class="btn text-white bg-dark border-0 save" style="display: none;" onclick="changestatus('{{this._id}}')">SAVE</button></td>
+        <td><a href="/admin/single-order-details/{{this._id}}" class="btn text-white bg-info border-0" >Details</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
+    </div>
+</section>
+
+<script>
+    var divs = document.querySelectorAll('#slNo');
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].innerHTML = i + 1;
+    }
+
+    $(document).ready( function () {
+    $('#orderslist').DataTable();
+    } );
+
+    let save=document.querySelectorAll(".save")
+    let selectTag=document.querySelectorAll(".selectTagValue")
+    let spanStatus=document.querySelectorAll(".spanStatus")
+    let delivered=document.querySelectorAll(".delivered")
+    let shipped=document.querySelectorAll(".shipped")
+    let placed=document.querySelectorAll(".placed")
+    let cancelled=document.querySelectorAll(".cancelled")
+
+    for(let i=0;i<selectTag.length;i++){
+      save[i].style.display="inline-block"
+      selectTag[i].style.display="block"
+      selectTagValue=selectTag[i].options[selectTag[i].selectedIndex].text
+      if(selectTagValue==="Cancelled" || selectTagValue==="Delivered" || selectTagValue==="Returned"){
+        selectTag[i].style.display="none"
+        spanStatus[i].style.display="inline-block"
+        save[i].style.display="none"
+      }
+      if(selectTagValue==="Placed"){
+        //delivered[i].style.display="none"
+        placed[i].style.display="none"
+      }
+      if(selectTagValue==="Pending"){
+        shipped[i].style.display="none"
+        delivered[i].style.display="none"
+        placed[i].style.display="block"
+      }
+    }
+
+function changestatus(orderId){
+   let st=document.getElementById(orderId)    
+  let stat = st.options[st.selectedIndex].text
+  console.log(stat)
+    Swal.fire({
+    title: 'Are you want to change the status to '+stat+' ?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Confirm'
+  }).then(async(result) => {
+    if (result.isConfirmed) {
+ 
+  await $.ajax({
+    url:'/admin/change-order-status',
+    data:{
+      order:orderId,
+      stat:stat
+    },
+    method:'post',
+    success:(response)=>{
+      console.log(response)
+
+      for(let i=0;i<selectTag.length;i++){
+        selectTagValue=selectTag[i].options[selectTag[i].selectedIndex].text
+        if(selectTagValue==="Cancelled" || selectTagValue==="Delivered" || selectTagValue==="Returned"){
+          selectTag[i].style.display="none"
+          spanStatus[i].style.display="inline-block"
+          spanStatus[i].innerHTML=selectTagValue
+          save[i].style.display="none"
+        }
+        if(selectTagValue==="Placed"){
+          //delivered[i].style.display="none"
+          placed[i].style.display="none"
+        }
+        if(selectTagValue==="Pending"){
+          shipped[i].style.display="none"
+          delivered[i].style.display="none"
+          placed[i].style.display="block"
+        }
+      }
+
+    }
+  })
+  location.reload()
+  }else{    
+    location.reload()
+  }  
+  })
+}
+</script>

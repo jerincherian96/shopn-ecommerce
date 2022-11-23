@@ -1,0 +1,132 @@
+
+<section class="image-section">
+ <div class="card border-0 bg-dark text-white">
+	{{#each banner}}
+  <img class="card-img" src="/product-images/{{this.banner}}" alt="Card image">
+  {{/each}}
+  <div class="card-img-overlay">
+    <h1 class="card-title">LIFESTYLE | FASHION</h1> <br>
+    <button type="button" class="btn btn-default btn-dark " onclick="scrollWin()">SHOP NOW</button>
+
+  </div>
+</div>
+</section>
+
+<section class="user-section">
+  <div class="container pt-3 ms-auto me-auto user-section ">
+    <h2 class="ms-4">Featured Products</h2>
+    <div class="row">
+      {{#each products}}
+      <div class="col-md-3 d-flex justify-content-center">
+		
+        <div class="card mt-4 cardImg" style="width: 15rem; height: 20rem; "  >   
+			 <a href="/productdetails/{{this._id}}" class="productcard">
+          <img
+            src="/product-images/{{this.image1}}"
+              class="card-img-top"
+              alt="..."
+              style="height: 12rem; "
+          />
+          <div class="card-body">
+			
+            <h5 class="card-title">{{this.brand}}</h5>
+            <span class="card-text">size: {{this.size}}</span>
+            <p><s class="productprice">{{this.mrp}}</s> <span class="ms-1 h6 card-text productprice">{{this.price}}</span></p>
+			
+          </div>
+		  </a>
+        </div>
+		
+      </div>
+
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="image-section">
+    <div class="card">
+  <img class="card-img" src="images/16092022-Dcdcas-MHP-topbanner-allstarsaleccccc-5090.gif" alt="Card image">
+
+</div>
+</section>
+
+</section>
+
+
+
+<footer class="footer-03">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-md-4 mb-md-0 mb-4">
+								<h2 class="footer-heading">Category</h2>
+								<ul class="list-unstyled">
+									<li><a href="/eyeglasses" class="py-1 d-block">FOR MEN</a></li>
+									<li><a href=" " class="py-1 d-block">FOR WOMEN</a></li>
+									<li><a href=" " class="py-1 d-block">FOR KIDS</a></li>
+								</ul>
+							</div>
+							<div class="col-md-4 mb-md-0 mb-4">
+								<h2 class="footer-heading">About Us</h2>
+								<ul class="list-unstyled">
+								    <li><a href="#" class="py-1 d-block">About</a></li>
+								</ul>
+					        </div>
+							<div class="col-md-4 mb-md-0 mb-4 ">
+								<h2 class="footer-heading">Contact Us</h2>
+								<ul class="list-unstyled">
+									<li><a href="#" class="py-1 d-block">shopn@gmail.com</a></li>
+									<li><a href="#" class="py-1 d-block">+91 8798678867</a></li>
+									<li><a href="#" class="py-1 d-block">+91 9923454466</a></li>
+									<li><a href="#" class="py-1 d-block">+91 7080996754</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class=" col-lg-1"> </div>
+					<div class="col-lg-5">
+						<div class="row justify-content-end">
+							<div class="col-md-12 col-lg-11 mb-md-0 mb-4">
+								<h2 class="footer-heading">Follow Us</h2>
+								<ul class="ftco-footer-social p-0">
+									<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><span><i class="fa-brands fa-twitter"></i></span></a></li>
+									<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a></li>
+									<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a></li>
+									<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><span><i class="fa-brands fa-linkedin-in"></i></span></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div> 
+				{{!-- <hr style="height:1px; width:100%; border-width:0; background-color:rgba(0, 0, 0, 0.3);"> --}}
+				<div class="row mt-5 pt-4 border-top">
+					<div class="col-md-6 col-lg-4 ">
+						<p class="mb-0 list-unstyled">
+							<a class="mr-md-3" href="#">Terms &amp; Conditions</a>
+							<a class="mr-md-3" href="#">Privacy</a>
+						</p>
+					</div>
+				</div>
+			</div>
+</footer>
+
+<script>
+function scrollWin() {
+  window.scrollBy(0, 830);
+}
+
+
+var price = document.getElementsByClassName("productprice")
+      console.log(price)
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+
+
+</script>
+
+

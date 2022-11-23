@@ -1,0 +1,509 @@
+
+<section class="h-100 gradient-custom "  style="background-color: rgb(233, 249, 255);">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Order summary</span>
+        </h4>
+        <ul class="list-group mb-3">
+          {{#each products}}
+          <li class="list-group-item d-flex  lh-sm">
+            <div>
+              <h6 class="my-0">{{this.product.brand}}</h6>
+               <span class="text-dark fs-6">{{this.product.model}}</span><br>
+              <strong class="">x {{this.quantity}}</strong>
+            </div>
+              <strong class="productprice ms-auto">{{this.price}}</strong>
+          </li>
+          {{/each}}
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Coupon</h6>
+            </div>
+            <span>-<span class="text-success productprice">{{percAmount}}</span></span>
+          </li>
+          <li class="list-group-item d-flex ">
+            <span>Total</span>
+            <span class="ms-auto"><s class="productprice">{{oldTotal}}</s><strong class="productprice ms-2"> {{totalAmount}}</strong></span> 
+          </li>
+        </ul>
+
+          <p class="fs-5 fw-bold text-success" id="couponMsg">{{couponName}}{{couponMsgGreen}}</p>
+          <p class="fs-5 fw-bold text-danger" id="couponMsg">{{couponMsgRed}}{{notApplicable}}</p>
+          <div class="input-group">
+            <input type="text" class="form-control" id="couponInput"  placeholder="Coupon">
+            <button class="btn btn-success" onclick="coupon()">Apply</button>
+          </div>
+
+        <ul class="list-group mb-3 mt-4">
+          
+
+          {{#each coupon}}
+          <li class="list-group-item d-flex justify-content-center lh-sm">
+            <div>
+              <h6 class="my-0 text-center " id="{{this.couponName}}" >{{this.couponName}}</h6>
+               <span class="text-dark fs-6">{{this.description}}</span><br>
+      
+            </div>
+
+              <button class="text-success btn" onclick="copyText('{{this.couponName}}')">copy</button>
+            
+          </li>
+          {{/each}}
+
+
+        </ul>  
+
+
+
+
+      </div>
+      <div class="col-md-7 col-lg-8" >
+        <h2 class="bg-danger text-white rounded">{{catchErr}}</h2>
+        <h2 class="mb-3">Billing Details</h2>
+        <div class="row">
+          {{#if addresses}}
+               <h3 class="">Delivery address</h3>
+          {{/if}}
+          {{#each addresses}}
+          <label class="form-check-label" for="{{this.id}}" id="editdiv{{this.id}}">
+            <div class="col-12  border border-1  p-2 bg-white">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="addressRadio" onclick="radioFun()" id="{{this.id}}" value="{{this.id}}" checked>
+                <p ><span class="fs-6 fw-bold">{{this.name}}</span><span class="fs-6 fw-bold ms-4">{{this.mobile}}</span>
+                <button class="btn float-right fs-5 ms-5 Btns" onclick="editUp('{{this.id}}')" ><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button class="btn float-right fs-5 Btns" onclick="removeAddress('{{this.id}}','{{this.name}}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                   
+                </p>
+                
+                <p><span>{{this.address}}</span></p>
+                <p><span>{{this.state}}</span><span class="ms-3">{{this.pincode}}</span></p>
+
+              </div>
+            </div>
+          </label> 
+
+          <div class="row" id="BigEditForm{{this.id}}" style="background-color: rgb(188, 207, 182); display: none;">
+                    <form action="/edit-Address-order" method="post">
+                   <div class="row" >
+
+                        <div class="col-lg-6 mb-3 mt-3">
+                          <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="name">Name</label>
+                        <input type="text" name="id" value="{{this.id}}" hidden>
+                        <input type="text" id="name" class="form-control form-control-alternative" name="name" 
+                        placeholder="Full name" value="{{this.name}}" required>
+                      </div>
+                    </div>
+ 
+                    <div class="col-lg-6 mb-3 mt-3">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="mobilenumber">Mobile number</label>
+                        <input type="text" id="mobilenumber" class="form-control form-control-alternative" name="phone" 
+                        placeholder="mobile number" value="{{this.mobile}}" pattern="(7|8|9)\d{9}$" 
+                        title="Enter a valid phone number,must be a 10 digit number" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3 ">
+                      <div class="form-group">
+                        <label class="form-control-label fs-5" for="input-email">Email address</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" name="email" 
+                        placeholder="email address" value="{{this.email}}" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3 ">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="input-address">Address</label>
+                        <input type="text" id="input-address" class="form-control form-control-alternative" name="address" 
+                        placeholder="Home Address" value="{{this.address}}" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-5">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="state">State</label>
+                        <input type="text" id="state" class="form-control form-control-alternative" name="state" 
+                        placeholder="state" value="{{this.state}}" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-5">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="pincode">Postal code</label>
+                        <input type="text" id="pincode" class="form-control form-control-alternative" name="pincode"
+                         placeholder="pincode" value="{{this.pincode}}" pattern="\d{6}" 
+                        title="Enter 6 digit valid pincode"  required>
+                      </div>
+                    </div>
+                   
+                   <div class="col-lg-12 d-flex justify-content-center mb-2">
+                    <button type="submit" class="btn  btn-info fs-6 w-25" >SAVE</button> 
+                    <button type="button" onclick="closeEditForm('{{this.id}}')" class="btn bg-white fs-6 ms-2">cancel</button>
+                   </div>
+                  </div>
+                  </form>
+                  </div>
+          {{/each}}
+            
+        </div> 
+
+        <div class="special bg-white p-2 mt-2 border border-1 border-dark" id="bigdiv" style="display: none;">
+          <form class="needs-validation" id="" action="/add-address" method="post">
+          <div class="row d-flex justify-content-center" >
+               
+            <div class="col-lg-7 mb-3 mt-3">
+              <div class="form-group focused">
+                <label class="form-control-label fs-5" for="name">Name</label>
+                <input type="text" id="name" class="form-control form-control-alternative" name="name" 
+                  placeholder="Full name" value="" required>
+              </div>
+            </div>
+ 
+            <div class="col-lg-7 mb-3 ">
+              <div class="form-group focused">
+                <label class="form-control-label fs-5" for="mobilenumber">Mobile number</label>
+                        <input type="text" id="mobilenumber" class="form-control form-control-alternative" name="phone" 
+                        placeholder="mobile number" value="" pattern="(7|8|9)\d{9}$" 
+                        title="Enter a valid phone number,must be a 10 digit number" required>
+                      </div>
+                </div>
+        
+                    <div class="col-lg-7 mb-3 ">
+                      <div class="form-group">
+                        <label class="form-control-label fs-5" for="input-email">Email address</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" name="email" 
+                        placeholder="email address" value="" required>
+                      </div>
+                    </div>
+ 
+                    <div class="col-lg-7 mb-3 ">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="input-address">Address</label>
+                        <input type="text" id="input-address" class="form-control form-control-alternative" name="address" 
+                        placeholder="Home Address" value="" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-7 mb-3">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="state">State</label>
+                        <input type="text" id="state" class="form-control form-control-alternative" name="state" 
+                        placeholder="state" value="" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-7 mb-5">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="pincode">Postal code</label>
+                        <input type="text" id="pincode" class="form-control form-control-alternative" name="pincode"
+                         placeholder="pincode" value="" pattern="\d{6}" 
+                        title="Enter 6 digit valid pincode"  required>
+                      </div>
+                    </div>
+                   
+                   <div class="col-lg-12 d-flex justify-content-center mb-2">
+                    <button type="submit" id="save" class="btn  btn-info fs-6 w-25" >SAVE</button> 
+                    <button id="" onclick="closediv()" class="btn bg-white fs-6 ms-2" >cancel</button>
+                   </div>
+          </div>
+          </form>
+         </div>
+          
+          <div class="row" id="addbtn" style="display: block;">
+            <div class="col-lg-6 mb-3 ms-3 mt-3 border border-1 border-dark p-2 fw-bold bg-white text-primary " style="cursor: pointer;" onclick="addressup()">
+            <i class="fa-solid fa-plus"></i> <span class="fs-5">Add a new address</span> 
+            </div>
+        </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="my-3 bg-white">
+            {{#if insufficient}}
+            <label class="form-check-label w-100" for="wallet">
+            <div class="border border-1 p-2">
+                <div class="form-check ">
+                <input id="wallet" name="paymentMethod" type="radio" class="form-check-input" value="WALLET" required disabled>
+                <span  class="fs-5"> <s class="text-secondary">SHOP'N-Wallet</s> <span class="text-danger fs-bold">Insufficient Balance</span></span>
+              </div>
+            </div>
+           </label>
+            {{else}}
+            <label class="form-check-label w-100" for="wallet">
+            <div class="border border-1 p-2">
+                <div class="form-check ">
+                <input id="wallet" name="paymentMethod" type="radio" class="form-check-input" value="WALLET" required>
+                <span  class="fs-5">SHOPN-Wallet</span>
+              </div>
+            </div>
+           </label>
+            {{/if}}
+
+
+            <label class="form-check-label w-100" for="razor">
+            <div class="border border-1 p-2">
+                <div class="form-check ">
+                <input id="razor" name="paymentMethod" type="radio" class="form-check-input" value="RAZORPAY"  required>
+                <span  class="fs-5"> Razorpay</span>
+              </div>
+            </div>
+           </label>
+           
+           <label class="form-check-label w-100" for="pay">
+           <div class="border border-1 p-2">
+              <div class="form-check">
+                <input id="pay" name="paymentMethod" type="radio" class="form-check-input" value="PAYPAL"  required>  
+                 <span  class="fs-5"> PAYPAL</span>
+              </div>
+            </div>
+            </label>
+
+            <label class="form-check-label w-100" for="co">
+            <div class="border border-1 p-2">
+              <div class="form-check">
+                <input id="co" name="paymentMethod" type="radio"  class="form-check-input" value="COD" checked required>
+                <span  class="fs-5"> COD</span>
+              </div>
+            </div>
+            </label>
+          </div>
+
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg " id="mainbutton" onclick="checkout()">Continue to checkout</button>
+ 
+      </div>
+    </div>
+  </div>
+
+      
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+  <script>
+
+    var price = document.getElementsByClassName("productprice")
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+
+
+        function copyText(couponName){
+              // Create a "hidden" input
+              var inp = document.createElement("input");
+              // Assign it the value of the specified element
+              inp.setAttribute("value", document.getElementById(couponName).innerHTML);
+              // Append it to the body
+              document.body.appendChild(inp);
+              // Highlight its content
+              inp.select();
+              // Copy the highlighted text
+              document.execCommand("copy");
+              // Remove it from the body
+              document.body.removeChild(inp);
+        }
+
+        function coupon(){
+          let couponName=document.getElementById('couponInput').value
+          console.log(couponName)
+          $.ajax({
+          url:'/coupon-verify',
+          data:{
+            coupon:couponName
+          },
+          method:'post',
+          success:(response)=>{
+            if(response.couponVerified){
+              console.log("Coupon success")
+              location.reload()
+            }else{
+              console.log("Coupon failed")
+              location.reload()
+            }
+            
+          }
+        })
+      }
+
+      function removeAddress(addressId,name){
+      Swal.fire({
+        title: 'Are you want to delete '+name,
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url:'/remove-address',
+          data:{
+            address:addressId
+          },
+          method:'post',
+          success:(response)=>{
+            location.reload()
+          }
+        })
+      }else{
+        
+      }
+    })
+
+}
+
+        
+    document.getElementById("mainbutton").disabled = true;
+    function addressup(){
+        document.getElementById('addbtn').style.display='none'
+        document.getElementById('bigdiv').style.display='block'
+       document.getElementById("mainbutton").disabled = true;
+       $(".Btns").prop("disabled", true);
+    }
+    function closediv(){
+        document.getElementById('addbtn').style.display='block'
+        document.getElementById('bigdiv').style.display='none'
+        document.getElementById("mainbutton").disabled = false;
+        $(".Btns").prop("disabled", false);
+    }
+
+    function editUp(addressId){
+      document.getElementById("editdiv"+addressId).style.display="none"
+      document.getElementById("BigEditForm"+addressId).style.display="block" 
+      $(".Btns").prop("disabled", true);
+      document.getElementById('addbtn').style.display='none'
+      document.getElementById("mainbutton").disabled = true;
+      
+    }
+
+    function closeEditForm(addressId){
+      document.getElementById("editdiv"+addressId).style.display="block"
+      document.getElementById("BigEditForm"+addressId).style.display="none"  
+      $(".Btns").prop("disabled", false);
+     document.getElementById('addbtn').style.display='block'
+     document.getElementById("mainbutton").disabled = false;
+    }
+
+    
+    if(document.querySelector('input[name="addressRadio"]:checked')) {
+      document.getElementById("mainbutton").disabled = false;
+     }
+  </script>
+
+
+<script>
+
+
+  function checkout(){
+    addressRadio=document.querySelector('input[name="addressRadio"]:checked').value
+    paymentMethod=document.querySelector('input[name="paymentMethod"]:checked').value
+    $.ajax({
+      url:'/place-order',
+      method:'post',
+      data:{
+        addressRadio:addressRadio,
+        paymentMethod:paymentMethod
+
+      },
+      success:(response)=>{
+        //alert(response)
+        console.log(response)
+        if(response.codSuccess){
+          location.href='/status-page'  //order placed msg   go to orders
+        }else if(response.walletSuccess){
+          location.href='/status-page'
+        }else if(response.paypalsuccess){
+          console.log("front end il paypalsuccess il keri")
+          location.replace(response.directionlink);
+          console.log(response)
+          paypalstatus(response.orderId)
+
+        }else if(response.razorpaysuccess){
+          console.log("front end il razorpayPayment fn nte avide")
+          razorpayPayment(response)
+        }
+      }
+    })
+  }
+   
+
+
+  function razorpayPayment(order){
+    var options = {
+    "key": "rzp_test_YCQI11i8t8Mxdo", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "JERIN CHERIAN ",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){    // --Success handling code
+       // alert(response.razorpay_payment_id);
+        //alert(response.razorpay_order_id);
+        //alert(response.razorpay_signature)
+
+        verifyPayment(response,order)
+    },    // --Success handling code
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+    };
+    var rzp1 = new Razorpay(options);
+    //--failure handling code   
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+         location.href='/status-page'
+    });
+    //--failure handling code   
+    rzp1.open();
+  }
+  function verifyPayment(payment,order){
+    $.ajax({
+      url:'/verify-payment',
+      data:{
+        payment,
+        order
+      },
+      method:'post',
+      success:async(response)=>{
+        if(response.status){
+          location.href='/status-page'
+        }else{
+           alert("Payment Failed !!!! ")
+         
+        }
+      }
+    })
+  }
+
+  function paypalstatus(order){
+      $.ajax({
+      url:'/paypal-status',
+      data:{
+        order
+      },
+      method:'post',
+      success:(response)=>{
+      
+      }
+    })
+  }
+</script>
+

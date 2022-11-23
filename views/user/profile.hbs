@@ -1,0 +1,163 @@
+
+ <link rel="stylesheet" type="text/css" href="/stylesheets/profilecss.css" >
+
+<body>
+  <section class="h-100 gradient-custom  p-4">
+
+    <div class="container-fluid py-5" >
+      <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0" >
+          <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+              <div class="col-lg-3 order-lg-2">
+                <div class="card-profile-image">
+                  <a href="#">
+                    <img src="/images/prof.jpg" class="rounded-circle">
+                  </a>
+                </div>
+              </div>
+            </div>
+      
+            <div class="card-body pt-8 pt-md-4">
+              <div class="row ">
+                <div class="col-12">
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                    <div>
+                      <span class="heading">Hello, {{singleUser.name}}</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="ms-5" >
+                     <a href="/wallet" style="color: rgb(73, 66, 66);"><i class="fa-solid fa-wallet fs-2"></i> <span class="fs-4">Wallet</span> </a> 
+                  </div>
+                </div>
+              </div>
+              <div class="text-center ">
+               <div class="h5 mt-4 border border-1 p-2">
+                  <a href="/view-orders" class="prof"><span class="fs-4"> My Orders</span></a>
+                </div>
+                <div class="h5  border border-1 p-2" >
+                  <h3>ReferralCode</h3>
+                  <span class="h3" id="referral">{{referralCode}}</span>
+                  <button class="text-success btn fs-6" onclick="copyText()">copy</button><br>
+                  <span class="fw-bold">Refer & Get ₹100</span>
+                </div>
+                <hr>
+                <div class="h5 mt-4">
+                  <a href="/change-password"> <span class="fs-4">Change Password</span></a>
+                </div>
+                <div class="h5 mt-4 ">
+                  <a href="/userlogout" class="btn fs-6"> 
+                    <i class="fa-solid fa-power-off fs-5"></i><span class="fs-4 w-100"> Logout</span>
+                    </a>
+
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <form action="/profile" method="post">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12 col-sm-6">
+                  <h2 class="mb-0">Personal Information</h2>
+                </div>
+                <div class="col-12 col-sm-6 text-right">
+                    <p href="" id="edit" class="btn  btn-info fs-6 fw-normal" onclick="edit()" >Edit</p>
+                  <button type="submit" id="save" class="btn  btn-primary fs-6" hidden>Save profile</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body w-100 ">
+              <div class="row w-100 ">
+
+                <div class="col-12 col-md-6 pl-lg-4 ">
+                  <div class="row w-100">
+                    <div class="col-12 col-md-12 mb-3 mt-3">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="name">Name</label>
+                        <input type="text" id="name" class="form-control form-control-alternative" name="name" readonly
+                        placeholder="Full name" value="{{singleUser.name}}" required>
+                      </div>
+                    </div>
+                    <!--                    <div class="col-lg-6 mb-3 mt-5 d-flex justify-content-center border border-1">
+                      <a href="/manage-addresses"><span class="fs-4 fw-bold float-right" >Manage Addresses</span></a>
+                    </div> -->
+                    </div>
+                    
+                    <div class="row w-100">
+                    <div class="col-12 col-md-12 mb-3 mt-3">
+                      <div class="form-group">
+                        <label class="form-control-label fs-5" for="input-email">Email address</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" name="email" readonly
+                        placeholder="email address" value="{{singleUser.email}}" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row w-100">
+                    <div class="col-12 col-md-12 mb-3 ">
+                      <div class="form-group focused">
+                        <label class="form-control-label fs-5" for="mobilenumber">Mobile number</label>
+                        <input type="number" id="mobilenumber" class="form-control form-control-alternative" name="phone" readonly
+                        placeholder="mobile number" value="{{singleUser.phone}}" required>
+                      </div>
+                    </div>
+                 </div>
+
+                    
+
+                </div>
+
+              <div class="float-right col-12 col-md-6 h-25 p-2 mt-5 d-flex justify-content-center border border-1">
+                      <span><a href="/manage-addresses" style="color: #5e72e4;"><span class="fs-4 fw-bold float-right" >Manage Addresses</span></a></span>
+              </div>
+              </div>
+             
+
+                
+
+
+                <div class="pl-lg-4">
+                  <div class="row">
+            
+
+                  </div>
+                </div>
+
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    function edit(){
+        document.getElementById('name').removeAttribute('readonly')
+        document.getElementById('input-email').removeAttribute('readonly')
+        document.getElementById('mobilenumber').removeAttribute('readonly')
+        document.getElementById('save').removeAttribute('hidden')
+        document.getElementById('edit').style.display='none'
+        document.getElementById('edit').setAttribute('hidden')
+    }
+    function copyText(){
+      // Create a "hidden" input
+      var inp = document.createElement("input");
+      // Assign it the value of the specified element
+      inp.setAttribute("value", document.getElementById('referral').innerHTML);
+      // Append it to the body
+      document.body.appendChild(inp);
+      // Highlight its content
+      inp.select();
+      // Copy the highlighted text
+      document.execCommand("copy");
+      // Remove it from the body
+      document.body.removeChild(inp);
+    }
+  </script>
+</body>

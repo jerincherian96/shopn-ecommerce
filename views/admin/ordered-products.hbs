@@ -1,0 +1,67 @@
+<section class="user-section">
+  <div class="container pt-3 ms-auto me-auto user-section ">
+       <h2 class="ms-4 text-center">Address Details</h2>
+    <div class="row">
+  <div class="row bg-white shadow-lg d-flex justify-content-center">
+      <div class=" col-12 mb-4 mb-lg-0 text-center">
+        <p class="fs-3 fw-bold">{{orderData.deliveryDetails.name}}</p>
+        <p class="fs-4 fw-bold">{{orderData.deliveryDetails.address}}</p>
+        <p class="fs-4 fw-bold">{{orderData.deliveryDetails.state}} {{orderData.deliveryDetails.pincode}}</p>
+        <p class="fs-4 fw-bold">{{orderData.deliveryDetails.mobile}}</p>
+      </div>
+    </div>
+    </div>
+    <h2 class="ms-4 text-center">Details
+    </h2>
+    <div class="row">
+      {{#each orders}}
+ <div class="row border border-1 bg-white shadow-lg p-3"> 
+              <div class=" col-12 col-sm-4 col-lg-3 mb-4 mb-lg-0">
+                <!-- Image -->
+                <div class="bg-image hover-overlay hover-zoom ripple rounded" style="width:8rem; height: 8rem;" data-mdb-ripple-color="light">
+                  <img src="/product-images/{{this.product.image1}}"
+                    class="w-100" alt="Blue Jeans Jacket" />
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                  </a>
+                </div>
+                <!-- Image -->
+              </div>
+              <div class="col-6 col-sm-4 col-lg-5 mb-4 mb-lg-0 ">
+                <!-- Data -->
+                <p><strong>{{this.product.brand}}</strong></p>
+                <p>Model: {{this.product.model}}</p>
+                <p >Price: <span class="productprice">{{this.product.price}}</span></p>
+                <p>Size: {{this.product.size}}</p>
+                <!-- Data -->
+              </div>
+              <div class="col-6 col-sm-4 col-lg-4 mb-4 mb-lg-0">
+                <!-- Quantity -->
+                <div class="d-flex mb-4" style="max-width: 300px">
+                  <div class="form-outline">
+                    Quantity: <span class="custom-input"  >{{this.quantity}}</span>
+                  </div>
+                </div>
+                <p class="text-start " >
+                 {{#if buynow}}
+                   <strong class="productprice">{{this.product.price}}</strong>
+                 {{else}}
+                   <strong class="productprice">{{this.price}}</strong>
+                 {{/if}}
+                </p>
+              </div>
+            </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<script>
+  var price = document.getElementsByClassName("productprice")
+      console.log(price)
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+</script>

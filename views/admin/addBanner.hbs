@@ -1,0 +1,94 @@
+<section class="admin-section bg-white">
+    <div class="container" style="height: 100vh;">
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-md-12 d-flex justify-content-center shadow-lg bg-white">
+             <form method="post" action="/admin/admin-addbanner" enctype="multipart/form-data" >
+
+            <h2 class="text-center mb-4 mt-2">Create Banner</h2>
+            <div class="row d-flex justify-content-around">
+                <div class="col-8 mb-4">
+                    <div class="form-group ">
+                        <label for="banner1">Name:</label>
+                        <input type="text" class="form-control" name="name" id="banner1" placeholder="" required>
+                         <p class="text-danger fs-bold" id="couponErr"></p>
+                    </div>
+                </div>
+                <div class="col-8 mb-4">
+                    <div class="form-group">
+                        <label for="description">image:</label>
+                       <input type="file" name="banner">
+                        {{!-- <input type="text" class="form-control" name="description" id="description" required> --}}
+                    </div>
+                </div>
+               
+             
+                <div class="col-12 d-flex justify-content-center mb-4">
+                    <button type="submit" class="btn btn-funky-moon mt-2 col-md-12 w-50 mb-4" id="">Create</button>
+                </div>  
+            </div>
+            </form>
+        </div>
+       
+        </div>
+    </div>
+</section>
+
+<script>
+    var divs = document.querySelectorAll('#slNo');
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].innerHTML = i + 1;
+    }
+
+
+    $("#createNewCoupon").submit((e)=>{
+        e.preventDefault()
+         $.ajax({
+          url:'/admin/coupon',
+          data:$('#createNewCoupon').serialize(),
+          method:'post',
+          success:async(response)=>{
+            if(response.couponExist){
+                document.getElementById("couponErr").innerHTML="Coupon already exist!"
+            }else{
+                await Swal.fire({
+                    position: 'inherit',
+                    icon: 'success',
+                    title: 'New Coupon has been created',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                location.reload()
+            }
+            
+          }
+        })
+    })
+
+    function removeCoupon(couponId,couponName){
+      Swal.fire({
+        title: 'Are you want to delete '+couponName,
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url:'/admin/remove-coupon',
+          data:{
+            coupon:couponId
+          },
+          method:'post',
+          success:(response)=>{
+            location.reload()
+          }
+        })
+      }else{
+        
+      }
+    })
+
+}
+</script>

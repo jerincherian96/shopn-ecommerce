@@ -1,0 +1,21 @@
+<section class="admin-section bg-white">
+    <div class="container" style="height: 100vh;">
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-md-12 d-flex justify-content-center shadow-lg bg-white">
+            <form action="/admin/add-category" method="post" class="col-5" >
+            <h2 class="text-center ">Add Categories</h2>
+            <div class="form-group mt-5">
+                <label for="category" class="fs-3">Category name</label>
+                <input type="text" class="form-control" name="category" id="category" placeholder="" required>
+            </div>
+            <p class="text-danger fs-bold">{{CatErr}}</p>
+
+            <button type="submit" class="btn btn-funky-moon mt-4 mb-5 col-md-12 ">Add</button>
+
+        </form>
+        </div>
+        </div>
+        
+    </div>
+    
+</section>

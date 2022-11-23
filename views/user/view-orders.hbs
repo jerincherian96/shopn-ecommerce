@@ -1,0 +1,189 @@
+
+<section class=" pt-4">
+    <div class="container-fluid px-5  ">
+    
+    <div class="table-responsive ">
+        <table class="table shadow-lg" id="myorders">
+  <thead class=" fw-bold fs-5 ">
+    <tr>
+      <th></th>
+       <th scope="col" class="">Date</th>
+       {{!-- <th scope="col" class="col-1">Name</th>
+      <th scope="col" class="col-2">Address</th>
+      <th scope="col" class="col-1">Mobile</th> --}}
+      <th scope="col" class="">Amount</th>
+      {{!-- <th scope="col" class="">Payment</th> --}}
+      <th scope="col" class="">Status</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody class="fw-bold fs-7">
+    {{#each order}}
+    <tr>
+      <td id="slNo"></td>
+      <td>{{this.date}}</td>
+        {{!-- <td >{{this.deliveryDetails.name}} <br>
+        <td >{{this.deliveryDetails.address}} <br>
+            {{this.deliveryDetails.pincode}} <br>
+            {{this.deliveryDetails.state}}
+        </td>
+        <td>{{this.deliveryDetails.mobile}}</td> --}}
+        <td ><span class="productprice">{{this.totalAmount}}</span><span class="paymentmethod"><h6>{{this.paymentMethod}}</h6></span></td>
+        {{!-- <td>{{this.paymentMethod}}</td> --}}
+        <td id="{{this._id}}" class="statusValue">{{this.status}}</td>
+        <td><a href="/view-order-products/{{this._id}}" class="btn btn-dark text-white border-0 btn-dark-blue" >View </a>
+          <button class="btn text-danger border border-danger cancelBtn" 
+          style="display: none;"
+          onclick="orderCancel('{{this._id}}','{{this.totalAmount}}')">Cancel</button>
+
+
+
+          <button class="btn text-danger border border-danger returnBtn" 
+          style="display: none;"
+          onclick="orderReturn('{{this._id}}','{{this.totalAmount}}')">Return</button>
+
+        </td>
+    </tr>
+    
+
+    {{/each}}
+    
+  </tbody>
+</table>
+</div>
+    </div>
+</section>
+
+<script>
+    var divs = document.querySelectorAll('#slNo');
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].innerHTML = i + 1;
+    }
+
+    $(document).ready( function () {
+    $('#myorders').DataTable();
+    } );
+
+    var price = document.getElementsByClassName("productprice")
+      console.log(price)
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+
+
+
+    let cancelBtn=document.querySelectorAll(".cancelBtn")
+    let returnBtn=document.querySelectorAll(".returnBtn")
+    let statusValue=document.querySelectorAll(".statusValue")
+    console.log(cancelBtn)
+
+    for(let i=0;i< statusValue.length ;i++){
+      cancelBtn[i].style.display="inline-block"
+      returnBtn[i].style.display="inline-block"
+      if(statusValue[i].innerHTML==="Returned" || statusValue[i].innerHTML==="Cancelled"){
+        cancelBtn[i].style.display="none"
+        returnBtn[i].style.display="none"
+      }
+      if(statusValue[i].innerHTML==="Placed" || statusValue[i].innerHTML==="Shipped" || statusValue[i].innerHTML==="Pending"){
+        returnBtn[i].style.display="none"
+      }
+      if(statusValue[i].innerHTML==="Delivered"){
+        cancelBtn[i].style.display="none"
+      }
+    }
+
+
+</script>
+
+<script>
+   $("#success-alert").hide();
+
+function orderReturn(orderId,orderTotal){
+    Swal.fire({
+    title: 'Are you want to return the order?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, return it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+  $.ajax({
+    url:'/order-return',
+    data:{
+    order:orderId,
+    total:orderTotal
+    },
+    method:'post',
+    success:(response)=>{
+    console.log(response)
+    document.getElementById(orderId).innerHTML="Returned"
+     
+
+    for(let i=0;i< statusValue.length ;i++){
+      if(statusValue[i].innerHTML==="Returned"){
+        returnBtn[i].style.display="none"
+      } 
+    }
+
+    Swal.fire({
+      position: 'inherit',
+      icon: 'success',
+      title: 'Cash successfully refunded to your wallet',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    }
+  })
+  }else{    
+  }  
+  })
+}
+
+function orderCancel(orderId,orderTotal){
+    Swal.fire({
+    title: 'Are you want to cancel the order?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, cancel it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url:'/order-cancel',
+        data:{
+          order:orderId,
+          total:orderTotal
+        },
+        method:'post',
+        success:(response)=>{
+        console.log(response)
+        document.getElementById(orderId).innerHTML="Cancelled"
+        for(let i=0;i< statusValue.length ;i++){
+          if(statusValue[i].innerHTML==="Cancelled"){
+            cancelBtn[i].style.display="none"
+          } 
+        }
+         Swal.fire({
+            position: 'inherit',
+            icon: 'success',
+            title: 'Cash successfully refunded to your wallet',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        }
+      })
+  }else{
+   }  
+  })
+}
+
+
+</script>

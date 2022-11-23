@@ -1,0 +1,29 @@
+<header >    
+<nav class="navbar navbar-expand-lg "style="background: linear-gradient(to top right,   #bd0b4f 0%,  #000 100%"> 
+  <div class="container-fluid">
+    <a class="navbar-brand ms-3 fs-3 fw-bold text-color" href="/">SHOP'N</a>
+    <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="text-dark"><i class="fa-solid fa-bars"></i></span> 
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">   
+         
+      <form action="/search/?search=''/" class="d-flex ms-auto">
+        <input type="search"  class="form-control  me-2 w-auto" name="search" placeholder="Search" value="{{key}}" aria-label="Search">
+        <button type="submit" class="btn btn-outline-success" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+           {{#each AllCategory}}
+        <li class="nav-item">
+          <a class="dropdown-item text-uppercase text-white aCategory" href="/category/{{this.category}}">{{this.category}}</a>
+        </li>
+           {{/each}}
+        </ul>
+    </div>
+    <!-- -->
+    <span class="me-5"><a href="/cart"> <i class="fa-solid fa-cart-shopping fa-lg"></i></a> </span>
+    <div class="me-5">
+        <a href="/userlogin" class="fs-4 text-color white a-login">Login</a>
+    </div>
+  </div>
+</nav>
+</header>

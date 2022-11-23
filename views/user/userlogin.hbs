@@ -1,0 +1,41 @@
+<section class="pt-5" style="width: 100vw; height: 100vh; background: linear-gradient(-45deg,  #EA5C54  0%, #bb6dec 100%);">
+        <div class="container">
+          <div>
+           <strong><h1 class="text-white">Welcome to SHOP'N</h1></strong>
+          </div>
+
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-4 bg-white rounded p-4" >
+                    <h3 class="text-uppercase text-center mb-2">Login</h3>
+                    <h4 class="error text-danger text-center fw-bold">{{Error}}</h4>
+            <form action="/userlogin" method="post">
+  <!-- Email input -->
+
+  <div class="form-outline mb-3 ">
+    <input type="email" id="form2Example1" class="form-control border border-dark" name="email" placeholder="Email address" required/>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-3">
+    <input type="password" id="form2Example2" class="form-control border border-dark" name="password" placeholder="Password" required/>
+  </div>
+
+
+  {{#if loginErr}}
+    <p class="error text-danger fw-bold">{{loginErr}}</p>
+  {{/if}}
+  <button type="submit" class="btn btn-primary btn-block w-100 p-2">Sign in</button>
+
+<hr>
+<p class="text-center">OR</p>
+<a href="/otplogin" class="btn btn-primary btn-block mb-2 w-100 p-2">Login with OTP</a>
+
+  <!-- Register buttons -->
+  <div class="text-center">
+    <p>Don't have an account? <a href="/usersignup">Create now</a></p>
+  </div>
+</form>
+  </div>
+        </div>
+            </div>
+    </section>

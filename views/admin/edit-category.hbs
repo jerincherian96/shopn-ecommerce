@@ -1,0 +1,21 @@
+<section class="admin-section bg-white" >
+    <div class="container" style="height: 100vh;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 d-flex justify-content-center shadow-lg bg-white">
+            <form action="/admin/edit-category/{{categoryName}}" method="post" class="col-5" enctype="multipart/form-data">
+            <h2 class="text-center">Edit Categories</h2>
+            <div class="form-group mt-5">
+                <label for="category" class="fs-3">Category name</label>
+                <input type="text" class="form-control" name="category" id="category" value="{{categoryName}}" placeholder="" required>
+            </div>
+            <p class="text-danger fs-bold">{{CatErr}}</p>
+
+            <button type="submit" class="btn btn-funky-moon mt-4 col-md-12 mb-5 ">Submit</button>
+
+        </form>
+        </div>
+        </div>
+         
+    </div>
+    
+</section>

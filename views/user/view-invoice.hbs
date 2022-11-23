@@ -1,0 +1,84 @@
+<section class="user-section">
+  <div class="container  p-5 d-flex justify-content-center">
+   
+          <div class="table-responsive w-100 ">
+          <button class="btn fs-5 text-white btn-info w-100 " id="newBtn">Download Invoice</button>
+          <br>
+            <table class="table bg-white shadow-lg  " id="newTable">
+        <thead></thead>
+        <tbody>
+          <tr><td colspan="5">Invoice</td></tr>
+          <tr> <th colspan="1"></th><th colspan="4" class="fs-4">EYEWEAR</th>  </tr>
+          <tr> <td colspan="5" >Bill To: </td> </tr>
+          <tr><td colspan="5">{{orderData.deliveryDetails.name}}</td>  </tr>
+          <tr><td colspan="5">{{orderData.deliveryDetails.address}}</td></tr>
+           <tr><td colspan="5">{{orderData.deliveryDetails.state}}</td> </tr>
+           <tr><td colspan="5">{{orderData.deliveryDetails.pincode}}</td> </tr>
+           <tr> <td colspan="5" >Date: {{orderData.date}}</td> </tr>
+
+        <tr> 
+         <th>PRODUCT:</th>
+         <th>DESCRIPTION:</th> 
+         <th>UNIT PRICE:</th> 
+          <th>QTY:</th> 
+         <th>TOTAL:</th> 
+         </tr>
+        {{#each productsData}}
+        <tr>
+          <td>{{this.brand}} {{this.model}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.price}}</td>
+          <td>{{this.quantity}}</td>
+          <td>{{this.pricetotal}}</td>
+        </tr>   
+         {{/each}}
+     
+        <tr > <th colspan="4" rowspan="2" align="right">TOTAL</th> <td rowspan="">INR</td> </tr>
+        <tr >  <td >{{orderData.totalAmount}}</td> </tr>
+        <tr> <th colspan="1"></th> <td colspan="4">Thank you for the purchase</td> </tr>
+        </tbody>
+        
+      </table>
+        </div>
+  
+  </div>
+</section>
+
+<script>
+    document.getElementById('newBtn').addEventListener('click', function(){
+      var doc = new jsPDF('p', 'pt', 'letter');
+      var htmlstring = '';
+      var tempVarToCheckPageHeight = 0;
+      var pageHeight = 0;
+      pageHeight = doc.internal.pageSize.height;
+      specialElementHandlers = {
+          // element with id of "bypass" - jQuery style selector  
+          '#bypassme': function (element, renderer) {
+              // true = "handled elsewhere, bypass text extraction"  
+              return true
+          }
+      };
+      margins = {
+          top: 150,
+          bottom: 60,
+          left: 40,
+          right: 40,
+          width: 600
+      };
+      var y = 20;
+      doc.setLineWidth(2);
+      //doc.text(200, y = y + 30, "TOTAL MARKS OF STUDENTS");
+
+      doc.autoTable({
+          //html: '#cont',
+          html: '#newTable',
+          startY: 70,
+          theme: 'grid',
+          styles: {
+              minCellHeight: 10
+          },
+      })
+
+      doc.save('Invoice.pdf');
+    })
+</script>

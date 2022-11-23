@@ -1,0 +1,83 @@
+<section class="admin-section bg-white pt-4" >
+    <div class="container">
+      <div class="">
+      <a href="/admin/add-products" class="btn btn-funky-moon">Add products</a>
+    </div>
+    {{!-- table-responsive-sm --}}
+    <div class="table-responsive">
+        <table class="table bg-white shadow-lg fw-bold" id="Productlist"> 
+  <thead>
+    <tr>
+      <th class=""></th>
+      <th scope="col" class="">Image</th>
+      <th scope="col" class="">Model No.</th>
+      <th scope="col" class="">Brand</th>
+      <th scope="col" class="">Price</th>
+      <th scope="col" class="">Category</th>
+      <th class="">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr>
+      <td id="slNo"></td>
+      <td><img src="/product-images/{{this.image1}}"  style="width: 4rem; height:4rem;" alt=""> </td>
+      <td>{{this.model}}</td>
+      <td>{{this.brand}}</td>
+      <td>{{this.price}} </td>
+      <td>{{this.category}}</td>
+      <td>
+        <a href="/admin/product-data/{{this._id}}" class="btn btn-info">View</a>
+        <a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a>
+        {{!-- href="/admin/delete-product/{{this._id}}" --}}
+        <button class="btn btn-danger" onclick="deleteProduct('{{this.model}}','{{this._id}}')">Delete</a>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+    </div>
+
+    </div>
+</section>
+
+<script>
+  var divs = document.querySelectorAll('#slNo');
+  for (var i = 0; i < divs.length; ++i) {
+      divs[i].innerHTML = i + 1;
+  }
+    
+
+  $(document).ready( function () {
+  $('#Productlist').DataTable();
+  } );
+
+  function deleteProduct(proModel,proId){
+          Swal.fire({
+        title: 'Are you want to delete '+proModel,
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url:'/admin/delete-product',
+          data:{
+            product:proId
+          },
+          method:'post',
+          success:(response)=>{
+            location.reload()
+          }
+        })
+      }else{
+        return false
+      }
+})
+  }
+
+
+</script>

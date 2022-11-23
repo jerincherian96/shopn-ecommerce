@@ -1,0 +1,192 @@
+<section class="bg-light">
+        <div class="container pb-5"style="margin-top:50px;">
+            <div class="row" style="">
+                <div class="col-lg-5 ">
+                    <div class="card mb-3 xzoom-container" style="">
+                        <img  src="/product-images/{{product.image1}}" class="card-img img-fluid xzoom crosshair" xoriginal="/product-images/{{product.image1}}"
+                        alt="Card image cap" id="product-detail">
+
+                        {{!-- <div class="xzoom-thumbs ">
+                            <a href="/product-images/{{product._id}}.jpg">
+                              <img class="xzoom-gallery" src="/product-images/{{product._id}}.jpg"  xpreview="/product-images/{{product._id}}.jpg">
+                            </a>
+                        </div>    --}}
+
+                    </div>
+                    <div class="row">
+           
+                        <!--Start Carousel Wrapper-->
+                        <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                            <!--Start Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
+
+                        
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="/product-images/{{product.image1}}" alt="Product Image 1">
+                                            </a>
+                                        </div>
+                                        <div class="col-6" >
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="/product-images/{{product.image2}}" alt="Product Image 2">
+                                            </a>
+                                        </div>
+                                    </div>
+                           
+                            </div>
+                            <!--End Slides-->
+                        </div>
+                        <!--End Carousel Wrapper-->
+   
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row pb-3">
+                                    <div class="col d-grid">
+
+                                        
+                                        <h1 class="h2" >{{product.brand}}</h1>
+                                        <form action="/add-to-wishlist" method="post">
+                                            <div>
+                                                <input type="text" name="wish" value="{{product._id}}" hidden>
+                                                <div>
+                                               <button type="submit" class="btn "><i class="fa fa-heart fa-lg" style="color:rgb(220, 23, 23) ;"></i></button> 
+                                                </div>
+                                            </div>
+                                        </form>
+                                        
+                                    </div>
+                                    <div class="col d-grid">
+                                        {{!--/*--}}
+                                    </div>
+                                </div>
+
+
+                            
+                            <span class="h3 text-secondary"><s class="productprice">{{product.mrp}}</s></span> <span class="ms-1 h3 py-2 productprice">{{product.price}}</span>
+                            {{#if stockNull}}
+                                <p class="text-danger fs-4 ">Out of Stock</p>
+                            {{/if}}
+                            {{#if stockFive}}
+                            <p class="text-danger fs-5 ">Hurry,Only {{product.stock}} left!</p>
+                            {{/if}}
+                                              
+                            <p class="py-2">
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                            </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Model:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{product.model}}</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Description:</h6>
+                            <p>{{product.description}}</p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Size:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{product.size}}</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Category:</h6>
+                            <ul class="list-unstyled pb-3">
+                                <li>{{product.category}}</li>
+          
+                            </ul>
+
+                            {{!-- <form action=""> --}}
+                                <div class="row pb-3 pt-5">
+                                    <div class="col d-grid">
+                                         {{#if stockNull}}
+                                         <a href="/buy-now/{{product._id}}" class="btn btn-warning btn-lg text-white fs-5 fw-bold disabled" >Buy Now</a>
+                                         {{else}}
+                                         <a href="/buy-now/{{product._id}}" class="btn btn-warning btn-lg text-white fs-5 fw-bold" >Buy Now</a>
+                                         {{/if}}
+                                        
+                                    </div>
+                                    <div class="col d-grid">
+                                        {{#if stockNull}}
+                                          {{#if itemIsThere}}
+                                           <a href="/add-to-cart/{{product._id}}" class="btn btn-lg text-white fs-5 fw-bold disabled" style="background-color: #ff9f00;" >Go To Cart</a>
+                                          {{else}}
+                                          <a href="/add-to-cart/{{product._id}}" class="btn btn-lg text-white fs-5 fw-bold disabled" style="background-color: #ff9f00;" disabled>Add To Cart</a>
+                                        {{/if}}
+                                        {{else}}
+                                          {{#if itemIsThere}}
+                                           <a href="/add-to-cart/{{product._id}}" class="btn btn-lg text-white fs-5 fw-bold " style="background-color: #ff9f00;" >Go To Cart</a>
+                                          {{else}}
+                                          <a href="/add-to-cart/{{product._id}}" class="btn btn-lg text-white fs-5 fw-bold " style="background-color: #ff9f00;" disabled>Add To Cart</a>
+                                        {{/if}}
+                                        {{/if}}
+                                       
+                                         
+                                    </div>
+                                </div>
+                            {{!-- </form> --}}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+<script>
+
+    var price = document.getElementsByClassName("productprice")
+      console.log(price)
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+
+
+    $(function ($){
+        $(".xzoom,.xzoom-gallery").xzoom({
+                zoomWidth: 760,
+                zoomHeight:650,
+                tint: "#333",
+                Xoffset: 15,
+            })
+    })
+
+ 
+  console.log("/product-images/{{product.image2}}")
+
+        'use strict';
+$(document).ready(function() {
+
+    // Product detail
+    $('.product-links-wap a').click(function(){
+      var this_src = $(this).children('img').attr('src');
+      $('#product-detail').attr('src',this_src);
+      $('#product-detail').attr('xoriginal',this_src);
+      return false;
+    });
+    
+
+
+});
+
+
+</script>
+
+

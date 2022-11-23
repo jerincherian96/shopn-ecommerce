@@ -1,0 +1,79 @@
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/profilecss.css" >
+
+<body>
+  <section class="h-100 gradient-custom  p-4">
+
+    <div class="container-fluid py-5" >
+      <div class="row justify-content-center">
+       
+        <div class="col-xl-10 order-xl-1">
+          <div class="card bg-secondary shadow">
+            {{#each wallet}}
+            <form action="/profile" method="post">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-10 col-sm-6 col-md-4  text-center p-2" style="background-color: rgb(255, 255, 255);">
+                   <h2 class="mb-0" style="background-color: rgb(214, 214, 119);">{{this.userName}}</h2>
+                  <div class="vla shadow-lg bg-white p-3">
+                    <i class="bi bi-currency-rupee text-dark"></i>
+                     <h2>₹{{this.balance}}</h2>
+                     <h3>AVAILABLE BAL</h3>
+                  </div>
+                  
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row justify-content-center">
+
+                <div class="col-6 col-md-10">
+                  <h1 class="text-center">Transaction History</h1>
+                  <div class="table-responsive bg-white w-100">
+                  <table class="table bg-white shadow-lg mt-3" id="userslist"> 
+                    <thead>
+                      <tr>
+                        <th>S.no</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Payment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each transaction}}
+                      <tr>
+                        <td id="slNo"></td>
+                        <td>{{this.date}}</td>
+                        <td>{{this.description}}</td>
+                        <td>{{this.amount}}</td>
+                        <td>{{this.payment}}</td>
+                      </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                  </div>
+
+                </div>
+      
+
+              </div>
+            
+
+            </div>
+            </form>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    var divs = document.querySelectorAll('#slNo');
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].innerHTML = i + 1;
+    }
+  </script>
+</body>

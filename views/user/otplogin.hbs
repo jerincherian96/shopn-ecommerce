@@ -1,0 +1,57 @@
+<section class="pt-5" style="width: 100vw; height: 100vh; background: linear-gradient(-45deg,  #EA5C54  0%, #bb6dec 100%);"> 
+    <div class="container pt-5">
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-4 bg-white rounded p-4" >
+                {{#if otpSended}}
+                <form action="/verifyotp" method="post">
+                    <h1 class="h3 mb-4 fw-normal text-center">Verify mobile number</h1>
+                    <p>We've sent a One Time Password (OTP) to your phone number.Please enter it below. </p>
+                    <div class="form-outline form-floating mb-4 ">
+                        <input type="text" class="form-control border" name="otp" id="realcode" placeholder="Enter OTP" required/>  
+                        <label for="realcode">Enter OTP</label>
+                        <p class="text-danger fs-bold">{{otpError}}</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mb-3 w-100 p-2" >Confirm</button>
+                </form>
+                {{else}}
+                    <form action="/send-otp" method="post">
+                    <h1 class="h3 mb-3 fw-normal text-center mb-4">Verify mobile number</h1>
+                    <div class="form-outline form-floating mb-4 ">
+                        <input type="text" id="phoneNo" class="form-control border " name="phone"
+                        placeholder="Enter mobile number" pattern="(7|8|9)\d{9}$" 
+                        title="Enter a valid phone number,must be a 10 digit number" required/>
+                        <label for="phoneNo">Enter mobile number</label>
+                        <p class="text-danger fs-bold">{{numberError}}</p>
+                    </div>
+               
+                    <button type="submit" class="btn btn-primary btn-block mb-3 w-100 p-2" >Send otp</button>
+                </form>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section>
+    <div class="container">
+        
+    </div>
+</section>

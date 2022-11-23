@@ -1,0 +1,46 @@
+<section class="admin-section">
+        <div class="container pb-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 p-3">
+                    <div class="row d-flex justify-content-center ">
+                        <div class="row ">
+                            <div class="col-6 shadow-lg">
+                                <a href="#">
+                                    <img class="card-img img-fluid" src="/product-images/{{product.image1}}" alt="Product Image 1">
+                                </a>
+                            </div>
+                            <div class="col-6 shadow-lg" >
+                                <a href="#">
+                                    <img class="card-img img-fluid" src="/product-images/{{product.image2}}" alt="Product Image 2">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 px-5 py-4 bg-white shadow-lg">
+                    <h1 >
+                        {{product.brand}} {{product.model}}
+                    </h1>
+                    <br>
+                    <h3><s class="productprice">{{product.mrp}}</s> <span class="productprice ms-3">{{product.price}}</span></h3>
+                    <br>
+                    <span class="h5 ">Size:</span><span class="h3"> {{product.size}}</span>
+                    <span class="h5 ms-5">Availabel stock:</span><span class="h3"> {{product.stock}}</span>
+                    <span class="h5 ms-5">Category:</span><span class="h3"> {{product.category}}</span>
+                    <br><br>
+                    <h4>Applied {{product.offerType}} offer - "{{product.offerName}}"</h4><br>
+                    <h4><span class="h5">Description:</span>{{product.description}} </h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+         var price = document.getElementsByClassName("productprice")
+      console.log(price)
+        for (let i = 0; i < price.length; i++) {
+            var tempPrice = parseFloat(price[i].innerHTML)
+            tempPrice = `₹${tempPrice.toLocaleString('hi')}`
+            price[i].innerHTML = tempPrice
+        }
+    </script>
