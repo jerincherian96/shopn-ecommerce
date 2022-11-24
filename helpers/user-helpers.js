@@ -13,8 +13,8 @@ const { statSync } = require('node:fs')
 const { resolve } = require('node:path')
 const { WISHLIST_COLLECTION } = require('../config/collections')
 var instance = new Razorpay({
-    key_id: 'rzp_test_YCQI11i8t8Mxdo',
-    key_secret: 'u461lMkrPyYwhfhuGMuAif3r',
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
   });
 
 module.exports={

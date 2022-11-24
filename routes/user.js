@@ -6,15 +6,15 @@ var userHelper=require('../helpers/user-helpers')
 var paypal = require('paypal-rest-sdk');
 const { Db } = require('mongodb');
 
-const accountSid = 'AC3e251390b6eccd491b1565897ce268bb'
-const authToken = 'b230026b9f00e6cfadb58efc8c685a82' 
-const serviceId ='	MG9944b64d198a128bae9184d2af39f76a'
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN 
+const serviceId =process.env.TWILIO_SERVICE_ID
 const client = require('twilio')(accountSid, authToken); 
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live 
-  'client_id': 'AVjj7k4h-vjJytZFYWUE3ObpwGow2LvizZhc1hcnKUpxSG94pTOj_JGoAvnNGVvc768IjdOJh84bc4hN', 
-  'client_secret': 'ECTFcQdE_uXctlZQ2z8LSp6hOY9EtQ8JnHVI6JcWop-y11fInM2gqxiuxuFADtIilbfCrQKbLSxRyKFs' 
+  'client_id':process.env.PAYPAL_CLIENT_ID, 
+  'client_secret': process.env.PAYPAL_CLIENT_SECRET 
 });
 
 
@@ -734,3 +734,8 @@ router.get('/userlogout',(req,res)=>{
   res.redirect('/')
 })
 module.exports = router;
+
+
+
+
+
