@@ -389,7 +389,7 @@ router.post('/place-order',async(req,res)=>{
           "payment_method": "paypal"
           },
           "redirect_urls": {
-          "return_url": "http://localhost:3000/status-page",
+          "return_url": "https://www.shopnwear.tk/status-page",
           "cancel_url": "http://localhost:3000/place-order"
           },
           "transactions": [{
