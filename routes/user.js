@@ -143,9 +143,11 @@ router.get('/productdetails/:id',(req,res)=>{
       }else{
         itemIsThere=false
       } 
-  }else{     
+  }else {     
   }
   res.render('user/product-details',{profile:true,product,AllCategory,cartCount,itemIsThere,stockNull,stockFive})
+}).catch(()=>{
+  res.render("404page",{profile:true,user:true})
 })
   })
 })
@@ -389,7 +391,7 @@ router.post('/place-order',async(req,res)=>{
           "payment_method": "paypal"
           },
           "redirect_urls": {
-          "return_url": "https://www.shopnwear.tk/status-page",
+          "return_url": "http://localhost:3000/status-page",
           "cancel_url": "http://localhost:3000/place-order"
           },
           "transactions": [{

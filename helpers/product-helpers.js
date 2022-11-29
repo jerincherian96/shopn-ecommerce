@@ -52,11 +52,16 @@ module.exports={
     },
     getProductDetails:(productId)=>{
         return new Promise(async(resolve,reject)=>{
+           try{ 
            db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:ObjectId(productId)}).then((product)=>{
                 console.log("productdetails get cheythu");
                 resolve(product)
+           
             })
-        })
+        }catch(e){
+            reject()
+        } 
+        } )
     },
     updateProduct:(proId,ProductDetails)=>{
         ProductDetails.price=parseInt(ProductDetails.price)
